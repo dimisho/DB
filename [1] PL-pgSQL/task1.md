@@ -274,7 +274,7 @@ COMMIT;
 
 ```SQL
 CREATE OR REPLACE PROCEDURE addPeopleAndKinship
-(name varchar, surname varchar, birth_date date, growth real, weight real, eyes varchar, hair varchar, child_id int)
+(name varchar, surname varchar, birth_date date, growth real, weight real, eyes varchar, hair varchar, child_id int, parent1_id int, parent2_id int)
 AS $$
 DECLARE
 	person_id int;
@@ -283,10 +283,14 @@ BEGIN
 	VALUES (name, surname, birth_date, growth, weight, eyes, hair) RETURNING id INTO person_id;
 	INSERT INTO parent_child (people_id, child_id)
 	VALUES (person_id, child_id);
+	INSERT INTO parent_child (people_id, child_id)
+	VALUES (parent1_id, person_id);
+	INSERT INTO parent_child (people_id, child_id)
+	VALUES (parent2_id, person_id);
 END
 $$ LANGUAGE plpgsql;
 
-CALL addPeopleAndKinship('Vladimir', 'Leonov', '09.04.1975', 178.3, 78.3, 'blue', 'black', 4)
+CALL addPeopleAndKinship('Vladimir', 'Leonov', '09.04.1975', 178.3, 78.3, 'blue', 'black', 4, 1, 2)
 ```
 
 ### №14. Измените схему БД так, чтобы в БД можно было хранить время актуальности данных человека (выполнить также, как п.12).
