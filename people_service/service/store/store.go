@@ -2,7 +2,6 @@ package store
 
 import (
 	"log"
-	"strconv"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/postgres"
@@ -73,14 +72,17 @@ func (s *Store) ListPeople() ([]People, error) {
 		})
 	}
 
+	if err = rows.Err(); err != nil {
+		return people, err
+	}
+
 	return people, nil
 }
 
 func (s *Store) GetPeopleByID(id int) (People, error) {
 	var name string
-	var stringId = strconv.Itoa(id)
 
-	row := s.conn.QueryRow("SELECT * FROM people WHERE id = " + stringId)
+	row := s.conn.QueryRow("SELECT * FROM people WHERE id = ?", id)
 
 	err := row.Scan(&id, &name)
 	if err != nil {
