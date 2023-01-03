@@ -1,14 +1,14 @@
 package game
 
 import (
-	"console_game/store"
+	"console_game/player"
 	"fmt"
 	"io"
 	"os"
 )
 
 type Game struct {
-	player *store.Player
+	player *player.Player
 	reader io.Reader
 	writer io.Writer
 }
@@ -27,7 +27,7 @@ const (
 )
 
 func NewGame(reader io.Reader, writer io.Writer) *Game {
-	return &Game{store.NewPlayer(), reader, writer}
+	return &Game{player.New(), reader, writer}
 }
 
 func StartGame() {

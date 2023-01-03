@@ -1,4 +1,4 @@
-package store
+package player
 
 import (
 	"fmt"
@@ -19,7 +19,7 @@ const (
 	rewardForStrongCreature = 40
 )
 
-func NewPlayer() *Player {
+func New() *Player {
 	return &Player{
 		burrowLength: 10,
 		health:       100,
