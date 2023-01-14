@@ -1,0 +1,25 @@
+version: "1"
+services:
+  todobot:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    volumes:
+      - ./:/app
+    environment:
+      - TG_TOKEN=token
+    container_name: to-do-bot
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: todo
+    container_name: to-do-db
